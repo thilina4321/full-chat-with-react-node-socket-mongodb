@@ -9,8 +9,8 @@ const Main = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path={"/"} element={<SignUp />} />
-          <Route path={"/login"} element={<Login />} />
+          <Route path={"/"} element={<Login />} />
+          <Route path={"/sign-up"} element={<SignUp />} />
           <Route path={"/home"} element={<App />} />
         </Routes>
       </BrowserRouter>

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Chat = (props) => {
   const { friend: fid, setChat } = props;
@@ -8,6 +9,7 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const socket = global.socket;
   const messageEl = useRef();
+  const navigate = useNavigate();
 
   const handlerAllMessages = (msgs) => {
     setMessages((_) => [...msgs]);
@@ -41,7 +43,9 @@ const Chat = (props) => {
   console.log(id, "id");
   return (
     <div style={{ width: "90%", margin: "auto", height: "100%" }}>
-      <h1>Chat Room</h1>
+      <h1 style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
+        Chat App
+      </h1>
 
       <div style={{ height: "80%" }}>
         {messages.map(({ msg, _id, owner }) => (
