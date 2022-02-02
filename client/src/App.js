@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Chat from "./Chat";
 import Friends from "./Friends";
 // import axios from "axios";
@@ -8,7 +9,7 @@ const App = () => {
   const [friends, setFriends] = useState([]);
   const [seleFri, setSeleFri] = useState("");
   const socket = global.socket;
-
+  const navigate = useNavigate();
 
   useEffect(async () => {
     // const abCn = new AbortController();
@@ -32,10 +33,25 @@ const App = () => {
     setSeleFri(id);
   };
 
-  console.log('log');
+  console.log("log");
 
   return (
     <div>
+      <p
+        style={{
+          display: "flex",
+          marginRight: "30px",
+          cursor: "pointer",
+          justifyContent: "flex-end",
+        }}
+        onClick={() => {
+          localStorage.removeItem("user");
+          navigate("/");
+        }}
+      >
+        {" "}
+        Logout{" "}
+      </p>
       {!chat ? (
         <Friends friends={friends} setChatWithFri={setChatWithFri} />
       ) : (
