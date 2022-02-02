@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import InputComponent from "./components/InputComponent";
+import ButtonComponent from "./components/ButtonComponent";
+import classes from "./auth.module.css";
+import useHttp from "./hooks/useHttp";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+
+  // custom hook
+  const [loginError, loginReq] = useHttp({
+    url: "http://localhost:3500/login",
+    data: { email: name, password },
+    method: "post",
+  });
 
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -18,76 +28,44 @@ const Login = () => {
 
   const loginHan = async () => {
     setError("");
-    if (!email || !password) {
+    if (!name || !password) {
       setError("Provide email and password");
       return;
     }
-    const res = await axios.post("http://localhost:3500/login", {
-      data: { email: email, password: password },
-    });
-    const resJson = res.data;
+
+    const resJson = await loginReq();
+    if (loginError) {
+      setError("Something went wrong");
+      return;
+    }
+
     const user = resJson["user"];
     console.log(user);
     localStorage.setItem("user", JSON.stringify(user));
     navigate("/home");
   };
-  return (
-    <div
-      style={{
-        width: "60%",
-        margin: "auto",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        height: "100vh",
-        minWidth: "400px",
-        gap: "10px",
-      }}
-    >
-      <label>User Name :</label>
-      <input
-        style={{ width: "100%", height: "30px" }}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label>Password :</label>
 
-      <input
+  return (
+    <div className={classes.auth}>
+      <InputComponent label="User Name" value={name} setValue={setName} />
+      <InputComponent
+        label="Password"
         value={password}
-        style={{ width: "100%", height: "30px" }}
-        onChange={(e) => setPassword(e.target.value)}
+        setValue={setPassword}
+        type="password"
       />
-      <div style={{ height: "50px" }}></div>
-      <button
-        style={{
-          width: "100%",
-          height: "50px",
-          backgroundColor: "purple",
-          color: "white",
-        }}
-        onClick={loginHan}
-      >
-        {" "}
-        Login{" "}
-      </button>
       {error && <p> {error} </p>}
 
+      <div style={{ height: "50px" }}></div>
+      <ButtonComponent name="Login" clickHandler={loginHan} />
+
       <p> Create Account ? </p>
-      <button
-        style={{
-          width: "100%",
-          height: "50px",
-          backgroundColor: "purple",
-          color: "white",
-        }}
-        onClick={() => {
+      <ButtonComponent
+        name="Sign Up"
+        clickHandler={() => {
           navigate("/sign-up");
         }}
-      >
-        {" "}
-        Sign Up{" "}
-      </button>
+      />
     </div>
   );
 };
