@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Chat from "./Chat";
-import Friends from "./Friends";
+import Chat from "./pages/chat/Chat";
+import Friends from "./pages/chat/Friends";
 // import axios from "axios";
 
 const App = () => {
