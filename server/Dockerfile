@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . /app
 
-EXPOSE 80
+EXPOSE 3500
 
-CMD ["node", "index.ts"]
+CMD ["npm", "start"]
 
