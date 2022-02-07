@@ -14,9 +14,9 @@ services:
       - "3500:3500"
     depends_on:
       - database
-
-  frontend:
     
+      
+  frontend: 
     build: ./client
     ports:
       - "3000:3000"
@@ -28,9 +28,6 @@ services:
     stdin_open: true
     tty: true
     
-
-
-
 
 volumes:
   data:

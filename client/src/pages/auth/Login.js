@@ -4,11 +4,16 @@ import ButtonComponent from "../../components/ButtonComponent";
 import classes from "./auth.module.css";
 import useHttp from "../../hooks/useHttp";
 import InputComponent from "../../components/InputComponent";
+import usePrompt from "../../hooks/usePrompt";
 
 const Login = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const [value, setWhen] = usePrompt();
+
+  console.log('my value', value);
 
   const navigate = useNavigate();
 
@@ -43,8 +48,18 @@ const Login = () => {
     navigate("/home");
   };
 
+  // const [when, setWhen] = useState(false);
+
   return (
     <div className={classes.auth}>
+      <p
+        onClick={() => {
+          setWhen();
+        }}
+      >
+        {" "}
+        Click to get promot{" "}
+      </p>
       <InputComponent label="User Name" value={name} setValue={setName} />
       <InputComponent
         label="Password"
